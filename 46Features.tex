@@ -1,0 +1,55 @@
+\subsection{Features}\label{sec:460}
+
+A full formalisation of features and agreement is beyond the scope of this thesis. However, it is necessary to have some conception of features, as these are what serve as labels, treated in \autoref{sec:470}. The nature of features is also inimicly tied to the nature of agreement, discussed in \autoref{sec:480}. A relatively neutral approach to the nature of features will be taken based on the system formalised by \textcite{AdgerD_2006,AdgerD_2010}, in order to match up best with the labelling theories that have been discussed and the approach that will be adopted in \autoref{sec:470}.
+
+\textcite{AdgerD_2006,AdgerD_2010} proposes a formal hierarchy of feature systems, recapitulated in \pxref{ex:FH}.
+
+\begin{subexamples}[preamble={\textbf{\textit{Feature system hierarchy}}}]\label{ex:FH}
+    \item \textbf{Privative}: ``atomic features may be present or absent, but have no other properties'' \parencite[187]{AdgerD_2010}.
+    \item \textbf{Privative with interpretability}: privative features may be prefixed with $u$ to indicate uninterpretability, enabling \textit{checking} relations to be formed between features \parencite[cf.][]{ChomskyN_1995}.
+    \item \textbf{Binary attribute-value}: features are ordered pairs $\langle Att,Val \rangle$ where $Att$ is drawn from a set of attributes, and $Val$ is $+$, $-$ or empty.
+    \item\label{ex:FH:iv} \textbf{Multi-valent attribute-value}: features are attribute-value pairs, values are drawn from a larger set of values.
+    \item \textbf{Recursive attribute-value}: features are attribute-value pairs, values may themselves be features.
+\end{subexamples}
+\noindent
+For reasons there is no room to discuss, \textcite{AdgerD_2006,AdgerD_2010} decisively argues that a multi-valent attribute-value feature system \pxref{ex:FH:iv} is the option most compatible with Minimalism as generally practised. A version of this system is adopted by \textcite{MilwayD_2021}, who makes the simplifying assumption that values can be encoded as integers. This eliminates the need for much of \citeposs{AdgerD_2010} formal apparatus. Whilst it is safe to say that this apparatus would be required in a fully-fledged theory of features, especially with respect to interface interpretation, I will also adopt a simplifying assumption. Instead of using integers to symbolise feature values, I will use an equivalent set of atomic symbols, more similarly to \textcite{AdgerD_2006,AdgerD_2010}. I will also use $\emptyset$ as a notational convention to indicate the lack of value (as done by \nptextcite{AdgerD_2010}), as a clearer alternative to blank space.
+
+Another simplifying assumption is the adoption of the feature sets defined in \autoref{def:UG}. Within this formalisation, I will assume that all possible features, i.e. all possible attribute-value pairs, are defined in UG. This greatly limits the power of the system, but is a necessary simplifying assumption to avoid too much digression. Naturally, the formalisation present here can easily be extended to accomodate a more fully-fledged feature theory of an equivalent level of complexity to the attribute-value system formalised by \textcite{AdgerD_2006,AdgerD_2010}. This being said, \textcite{AdgerD_2010} makes some assumptions that I intentionally do not assume here, since he adopts a feature-driven system, akin to `Triggered-Merge' in \CS, which is in opposition to the (free) Merge-driven system I have adopted here (cf. \autoref{sec:140}). Thus, the feature system formalised here is necessarily excessively simple, which will have bearing on potential empirical consequences that there will unfortunately not be room to discuss.
+
+With this in place, I adopt the following definitions.
+
+\begin{definition}
+    $Att$ is the set of feature \textit{attributes}.
+\end{definition}
+
+\begin{definition}
+    $Val$ is the set of feature \textit{values} $\{+, -, ...\}$.
+\end{definition}
+
+\begin{definition}
+    A \textit{feature} $f$ is a pair $\langle a, v \rangle$ where $a \in Att$ and $v \in Val$. $v$ may be empty; if this is the case $f$ is considered \textit{unvalued}.
+\end{definition}
+
+\begin{definition}
+    A feature $f$ is \textit{interpretable} iff $f \in \Fsem$. A feature is \textit{uninterpretable} iff $f \in \Fsyn$.
+\end{definition}
+\noindent
+Note that this definition allows dissociation between feature value and feature interpretability, which is employed by some feature theories, notably by \textcite{PesetskyD.TorregoE_2007}.
+
+It will also be useful to define a simple function \Match, which determines if features are matching for attribute, but not value.
+
+\begin{definition}\label{def:match}
+    For two features $f_1 = \feature{1}$, $f_2 = \feature{2}$,
+    \begin{enumerate}[(i)]
+        \item if $f_1 = f_2$, $\Match(f_1,f_2) = \emptyset$,
+        \item else if $Att_1 = Att_2$ and one of $Val_1, Val_2$ is empty, $\Match(f_1,f_2) = \{f_1, f_2\}$ or $\pair{f_2}{f_1}$, such that the valued feature is first.%
+            \footnote{This condition is totally arbitrary, and is adopted solely to maintain the assumption that shared labels are pairs as opposed to sets.}
+        \item else, $\Match(f_1,f_2) = \emptyset$.
+    \end{enumerate}
+\end{definition}
+\noindent
+This definition can be developed into a function \MatchLI, which returns the set of all sets/pairs of features that satisfy \Match\ between two LIs.
+
+\begin{definition}\label{def:matchLI}
+    For two LIs $X$ and $Y$, let the set $S = X \times Y$. For all $s \in S$, $\MatchLI(X, Y) = \{\Match(s) : \Match(s) \neq \emptyset\}$.
+\end{definition}

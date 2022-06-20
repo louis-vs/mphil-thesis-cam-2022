@@ -1,0 +1,275 @@
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+\documentclass[12pt, a4paper]{article}
+
+% silence warnings
+\usepackage{silence}
+\WarningFilter{biblatex}{}
+\WarningFilter{hyperref}{Token not allowed}
+
+% fonts
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+\usepackage{unicode-math}
+\setmathfont{TeX Gyre Termes Math}
+
+\usepackage[british]{babel}
+
+\usepackage{xcolor}
+
+\usepackage{metalogo} % for \XeLaTeX
+\usepackage[super]{nth} % for ordinals
+
+% graphics
+\usepackage{graphicx}
+\graphicspath{ {./figures/} }
+
+% geometry
+\usepackage{geometry}
+\usepackage{calc} % for computing lengths
+\geometry{
+    a4paper,
+    includeheadfoot,
+    hmargin=1in,
+    tmargin=1in-24pt,
+    bmargin=1in-16pt,
+    headheight=16pt,
+    headsep=20pt,
+    footskip=24pt,
+}
+
+% tweaks
+\usepackage{microtype}
+\vfuzz3pt
+\hfuzz3pt
+\setlength{\emergencystretch}{1pc}
+
+% spacing
+\renewcommand{\baselinestretch}{1.5}
+\usepackage{setspace}
+
+% format headings
+\usepackage{titlesec}
+
+%\newcommand{\sectionbreak}{\clearpage}
+%\titlelabel{\thetitle.\quad}
+
+%\titleformat{\section}
+%{\Large\bfseries}
+%{\thesection}
+%{1em}
+%{}
+
+% header / footer
+%\usepackage{fancyhdr}
+%\fancypagestyle{fancy}{
+%    \fancyhf{}
+%    \fancyhead[L]{\color{darkgray}Long Draft}
+%    \fancyhead[R]{\color{darkgray}05/22}
+%    \fancyfoot[L]{\color{darkgray}Louis Van Steene}
+%    \fancyfoot[R]{\color{darkgray}\thepage}
+%}
+%\renewcommand{\headrulewidth}{0pt}
+%
+%\pagestyle{fancy}
+
+% meta-info
+%\title{Formalising Labelling}
+%\author{Louis Van Steene}
+%\date{May 2022}
+
+% bibliography
+\usepackage{csquotes}
+\usepackage[
+    backend=biber,
+    style=apa,
+    labeldate=year,
+    url=false,
+    doi=false
+]{biblatex}
+\DeclareLanguageMapping{british}{british-apa}
+\addbibresource{mphil_plus.bib}
+
+% other packages
+%\usepackage{lipsum}
+\usepackage{layout}
+\usepackage[shortlabels]{enumitem}
+
+% epigraphs
+\usepackage{epigraph}
+\setlength\epigraphwidth{.65\textwidth}
+\setlength\epigraphrule{0pt}
+
+% math
+\usepackage{amsthm} % provides \newtheorem*, \theoremstyle, proof environment
+\usepackage{upgreek} % provides \upvarphi
+
+\theoremstyle{definition}\newtheorem{definition}{Definition}
+\theoremstyle{plain}\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}\newtheorem{lemma}{Lemma}
+
+% linguistics-specific
+\usepackage[keeplayout,noglossbreaks]{covington} % examples, glosses
+\usepackage[linguistics,external]{forest} % syntax trees
+%\tikzexternalize[prefix=./figures/]
+\forestset{
+    default preamble={ for tree={s sep=15mm, inner sep=0, l=0} }
+}
+
+
+% HYPERREF: pdf settings and me
+\usepackage[
+    colorlinks=false,
+    pdfborder={0 0 0}
+]{hyperref}
+\hypersetup{
+    pdftitle={The biolinguistic search for labels: a review and formalisation of labelling within Minimalist syntax},
+    pdfauthor={Louis Van Steene}
+}
+
+% default capitalise refnames using babel+hyperref
+\addto\extrasbritish{
+    \def\sectionautorefname{Section}
+    \def\subsectionautorefname{Section}
+    \def\subsubsectionautorefname{Section}
+    \def\figureautorefname{Figure}
+    \def\itemautorefname{Example}
+    \def\definitionautorefname{Definition}
+    \def\theoremautorefname{Theorem}
+}
+
+
+% redefine table of contents to remove section title (I want it to be a subsection)
+\makeatletter
+\renewcommand{\tableofcontents}{%
+    \@starttoc{toc}%
+}
+\makeatother
+
+
+% macros
+\usepackage{ifthen} % provides \ifthenelse
+\usepackage{xstring} % provides \IfInteger
+
+
+\newcommand{\MERGE}{\ensuremath{MERGE}}
+\newcommand{\AGREE}{\ensuremath{AGREE}}
+\newcommand{\TRANSFER}{\ensuremath{TRANSFER}}
+\newcommand{\WS}{\ensuremath{WS}}
+\newcommand{\fSM}{\ensuremath{\Phi}}
+\newcommand{\ffSM}{\ensuremath{f_\Phi}}
+\newcommand{\fCI}{\ensuremath{\Sigma}}
+\newcommand{\ffCI}{\ensuremath{f_\Sigma}}
+\newcommand{\CHL}{\ensuremath{C_{HL}}}
+\newcommand{\Szero}{\ensuremath{S_0}}
+\newcommand{\setF}{\ensuremath{\mathbfit{F}}}
+\newcommand{\setExp}{\ensuremath{\mathbfit{Exp}}}
+\newcommand{\Exp}{\ensuremath{Exp}}
+\newcommand{\Lex}{\ensuremath{Lex}}
+\newcommand{\LA}{\ensuremath{LA}}
+\newcommand{\PHON}{\ensuremath{PHON}}
+\newcommand{\SYN}{\ensuremath{SYN}}
+\newcommand{\SEM}{\ensuremath{SEM}}
+\newcommand{\phonsem}{\ensuremath{\langle PHON, SEM\rangle}}
+\newcommand{\IC}{\ensuremath{IC}}
+\newcommand{\IL}{\ensuremath{IL}}
+\newcommand{\ICSM}{\ensuremath{\IC(SM)}}
+\newcommand{\ICCI}{\ensuremath{IC(C\textnormal{-}I)}}
+\newcommand{\phiF}{\ensuremath{\upvarphi}}
+\newcommand{\littleN}{\textit{n}}
+\newcommand{\littleV}{\textit{v}}
+\newcommand{\littleVP}{\textit{v}P}
+\newcommand{\littleA}{\textit{a}}
+\newcommand{\thetarole}{\ensuremath{\theta}\text{-role}}
+\newcommand{\thetaroles}{\ensuremath{\theta}\text{-roles}}
+\newcommand{\Search}{\ensuremath{\Sigma}}
+\newcommand{\Select}{\ensuremath{Select}}
+\newcommand{\Merge}{\ensuremath{Merge}}
+\newcommand{\Agree}{\ensuremath{Agree}}
+\newcommand{\Label}{\ensuremath{Label}}
+\newcommand{\LabelTD}{\ensuremath{LabelTD}}
+\newcommand{\LabelBU}{\ensuremath{LabelBU}}
+\newcommand{\Transfer}{\ensuremath{Transfer}}
+\newcommand{\FormCopy}{\ensuremath{FormCopy}}
+\newcommand{\Fphon}{\ensuremath{F_{PHON}}}
+\newcommand{\Fsem}{\ensuremath{F_{SEM}}}
+\newcommand{\Fsyn}{\ensuremath{F_{NS}}}
+\newcommand{\LEX}{\ensuremath{LEX}}
+\newcommand{\LI}{\ensuremath{LI}}
+\newcommand{\LIk}{\ensuremath{LI_k}}
+\newcommand{\copySO}[1]{\ensuremath{\langle}#1\ensuremath{\rangle}}
+\newcommand{\pair}[2]{\ensuremath{\langle #1,#2 \rangle}}
+\newcommand{\stage}[1]{\ensuremath{\pair{W_{#1}}{T_{#1}}}}
+\newcommand{\complexstage}[2]{\ensuremath{\pair{W_{#1}}{T_{#2}}}}
+\newcommand{\MS}{\ensuremath{\Sigma}}
+\newcommand{\SD}{\ensuremath{\delta}}
+\newcommand{\ST}{\ensuremath{\tau}}
+\newcommand{\feature}[1]{\ensuremath{\pair{Att_{#1}}{Val_{#1}}}}
+\newcommand{\featureUV}[1]{\ensuremath{\pair{Att_{#1}}{\emptyset}}}
+\newcommand{\Match}{\ensuremath{Match}}
+\newcommand{\MatchLI}{\ensuremath{MatchLI}}
+\newcommand{\NOM}{\textsc{nom}}
+\newcommand{\PRS}{\textsc{prs}}
+\newcommand{\TSG}{\textsc{3sg}}
+
+% add option to swap to symbols for footnotes, using \symfootnote{}
+% courtesy of Jason Eisner at https://tex.stackexchange.com/a/481634
+\newcounter{savefootnote}
+\newcounter{symfootnote}
+\newcommand{\symfootnote}[1]{%
+   \setcounter{savefootnote}{\value{footnote}}%
+   \setcounter{footnote}{\value{symfootnote}}%
+   \ifnum\value{footnote}>8\setcounter{footnote}{0}\fi%
+   \let\oldthefootnote=\thefootnote%
+   \renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+   \footnote{#1}%
+   \let\thefootnote=\oldthefootnote%
+   \setcounter{symfootnote}{\value{footnote}}%
+   \setcounter{footnote}{\value{savefootnote}}%
+}
+
+% hacky workaround for subexamples with multiple parts.
+% labels need to be of appropriate format.
+\newcommand{\subexref}[2]{\pxref{#1}\ref{#1#2}}
+
+% possessive citations
+\newcommand{\citeposs}[2][]{\citeauthor{#2}'s (\citeyear[#1]{#2})}
+
+% C&S (p. x)
+\newcommand{\CS}[1][]{%
+    \ifthenelse{ \equal{#1}{} }
+        {C\&S}
+        {\IfInteger{#1}{C\&S (p.~#1)}{C\&S (p.p.~#1)}}%
+}
+
+
+% glossaries (must be POST-HYPEREF and post-macros)
+\usepackage[acronym,xindy,nogroupskip,nonumberlist,nopostdot]{glossaries}
+\glsdisablehyper
+\makeglossaries
+\setglossarystyle{long}
+\loadglsentries{abbreviations}
+%\WarningFilter{glossaries}{No} % filter warning when glossary has no entries
+
+\begin{document}
+%
+\input{00Preface}
+%
+\clearpage%
+\pagenumbering{arabic}%
+\input{10Introduction}%
+\clearpage%
+\input{20History}%
+\clearpage%
+\input{30Review}%
+\clearpage%
+\input{40Formalisation}%
+\clearpage%
+\input{50Conclusion}%
+%
+\newpage%
+\printbibliography[heading=bibintoc]%
+%
+%
+\end{document}
+

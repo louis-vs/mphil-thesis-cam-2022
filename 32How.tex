@@ -1,0 +1,68 @@
+\subsection{Finding the label}\label{sec:320}
+
+Returning to the questions in \pxref{ex:questions}: firstly, consider \pxref{ex:questions:how}. The basic position is outlined by \textcite[43]{ChomskyN_2013}: ``LA is just minimal search, presumably appropriating a third factor principle, as in Agree and other operations''. Some suggestions are provided as to how exactly this search is determined as `minimal': ``[i]n the best case, the relevant information about SO will be provided by a single designated element within it: a computational atom, to first approximation a lexical item LI, a head'' \parencite[43]{ChomskyN_2013}. Since labels are not found within the structure, only one level of search needs to be performed to identify whether the members of an SO are computational atoms (LIs) or are themselves sets (complex SOs). A set cannot serve as a label on first approximation, but an LI can. This approach clearly harks back to the original formulation of labels within BPS in \textcite{ChomskyN_1994}, in which it was stipulated that the label must be selected from one of the two mergees, i.e. $K\in\{\alpha,\beta\}$. With the BPS stipulation, but adopting \pxref{ex:twomerges:nolabel} and LA, it is implied that search would have to find one of $\alpha$ or $\beta$, and would not be allowed to search through either SO to find the label. This is motivated by MinTC: a certain conception of MinSearch that would entail that the members of the SO are examined first, and assuming optimality, one of these must then be chosen as the label.
+
+There are two clear problems with this approach. Firstly, such a simplistic LA simply does not suffice empirically, as noted in \autoref{sec:200}, since there are many cases where Merge applies to two non-minimal projections---namely, any time an external argument is introduced, and in all cases of movement (except head movement). Secondly, the assumption that LA may only consider LIs as `computational atoms' is problematic. In the context of the BPS framework described above, it was claimed that $K\in\{\alpha,\beta\}$ was required on two bases: the introduction of external, diacritic elements would violate Inclusiveness, and the only alternatives, the union or intersection of the mergees, would be nonsensical. As pointed out by \textcite{BlumelA_2017a}, however, Chomsky's reasoning on this matter fails to hold with an LA that instead relies on MS---specifically, a kind of MS that can `see into' the feature content of LIs. \textcite{ChomskyN_2013} independently comes to a similar conclusion. The claim is that, where feature sharing occurs, ``LA finds the most prominent element [] in both terms, and can take that to be the label'' \parencite[45]{ChomskyN_2013}. In this case, ``most prominent element'' clearly has a much looser definition than the earlier reliance on `computational atoms', but it is one that needs to be clarified in any formalisation of LA.
+
+Another aspect of LA is seldom discussed, but it is fundamental to its operation. The question is as to whether LA operates `top-down' or `bottom-up'. In the latter case, the label of SOs `lower down' in the structure are determined before those higher up. Unlike the earlier labelling systems which require the label to be specified at time of Merge, as in \pxref{ex:twomerges:label}, with LA \pxref{ex:popLA} it is possible to determine labels top-down at any point. This LA does not require the labels of any other SOs other than the one serving as input to the algorithm to be defined since they are computed recursively, as a result of \pxref{ex:popLA:LI}.
+
+It is nevertheless worth considering whether applying LA bottom-up would lead to a naturally more optimal system. For the sake of example, let's make two assumptions regarding LA (to be derived from general principles): (a) LA starts at the most deeply embedded SO; and (b) LA keeps in memory any labels assigned at the most recently labelled level. In diagrammatic form, take \pxref{ex:arblabeltree}, where $H_1,H_2$ are LIs.
+
+\begin{example}\label{ex:arblabeltree}
+    \begin{forest}
+        [,phantom [1,edge=dotted [2,edge=dotted [3,edge=dotted]]] [{$\alpha$}
+            [{$H_1$} ]
+            [{$\beta$}
+                [{$H_2$} ]
+                [{...} ]
+            ]
+        ]]
+    \end{forest}
+\end{example}
+\noindent
+Operating bottom-up by assumption (a), LA must first determine the label of the SO $\{H_2,...\}$, indicated by $\beta$. Ignoring the contents of the additional structure indicated by the ellipses (...) for illustrative purposes, assume $\beta = H_2$ by \pxref{ex:popLA:a}. At this tier, LA must also determine the label of $H_1$---by \pxref{ex:popLA:LI}, this is simply the LI itself, $H_1$. With the labels at tier 2 established, LA moves up to tier 1, and must label the SO $\{H_1,\{H_2,...\}\}$, indicated as $\alpha$. By assumption (b), LA has access to the labels assigned at the previous tier, tier 2. As a result, LA can see that it assigned the labels $\{H_1,H_2\}$ to the members of the SO $\alpha$. The representation can thus be informally diagrammed as in \pxref{ex:arblabeltree:revised}.
+
+\begin{example}\label{ex:arblabeltree:revised}
+    \begin{forest}
+        [,phantom [1,edge=dotted [2,edge=dotted [3,edge=dotted]]] [{$\alpha$}
+            [{$H_1$} ]
+            [{$H_2$}
+                [{$H_2$} ]
+                [{...} ]
+            ]
+        ]]
+    \end{forest}
+\end{example}
+\noindent
+Maintaining assumptions (a) and (b) appears to create a dilemma. If LA looks only at the label information it is afforded by (b), i.e. the set $\{H_1,H_2\}$, then it has no way of determining that the object labelled by $H_2$ is in fact a complex SO, as a result of the elimination of diacritics from labels entailed by BPS. If LA instead uses the information provided by Merge, i.e. the set $\{H_1,\{H_2,...\}\}$, then (i) LA correctly identifies the label by \pxref{ex:popLA:a}, and (ii) there does not seem to be any need to postulate (b). However, there are good, independent reasons to think that something like (b) is true. The first is simply computational optimality: (b) minimises caching---MinCCD of \pxref{ex:mobbscompopt}---and coupled with (a) minimises search---hence maximising throughput. If this were not the case, and LA needed to cache all computed labels, then this would entail no search optimisation, thus no benefit over top-down search.
+
+Furthermore, option \pxref{ex:popLA:b} actually \emph{requires} that the label of complex SOs be accessible to LA. To demonstrate this, take the more complex example \pxref{ex:arblabeltree2}.%
+\footnote{See Section X for an empirical cases with structures resembling \pxref{ex:arblabeltree2}.}
+
+\begin{example}\label{ex:arblabeltree2}
+    \begin{forest}
+        [,phantom [1,edge=dotted [2,edge=dotted [3,edge=dotted]]] [{$\alpha$}
+            [{$\beta$} 
+                [{$H_1$\\{[F]}} ]
+                [{...} ]
+            ]
+            [{$\delta$}
+                [{$H_2$\\{[F]}} ]
+                [{...} ]
+            ]
+        ]]
+    \end{forest}
+\end{example}
+\noindent
+Following the same logic as above, at tier 2, $label(\beta)=H_1[F]$ and $label(\delta)=H_2[F]$. What happens at tier 1 is the interesting thing: via (b), LA sees $\{H_1[F],H_2[F]\}$. It is thus able to select $F$, a feature shared between the two LIs, as a label, via \subexref{ex:popLA:b}{ii}, correctly deducing that $label(\alpha)=F$ as per \textcite{ChomskyN_2013}. Without retaining a memory of the labels it has assigned, LA would have to search through a potentially very large structure in order to find the relevant features, and this would have to be done repeatedly, for future labels that are computed (within a given phase). This is thus a clear case of a small increase in space complexity in exchange for a massive reduction in time complexity, conforming to MaxTP.
+
+Indeed, what this has shown is that LA \pxref{ex:popLA} does not need to access the full syntactic structure at any point---rather, the information given at the previous level suffices. Let's (informally) define a stronger version of the property (b) of LA as the \textit{Goldfish Property} (GP) as in \pxref{def:gp}.%
+\footnote{Alluding to the allegedly poor memory of \textit{carassius auratus}. In reality, this turns out to be a myth---see for instance \textcite{GeeP.etal_1994}.}
+
+\begin{example}\label{def:gp}
+    \textit{The Goldfish Property}
+
+    LA has access only to the labels computed at the previous level of a syntactic representation.
+\end{example}
+
+\textcite[f.n.~6]{RizziL_2015} also makes the observation as above that the BPS system appears unable to locally distinguish between heads (LIs) and phrases (complex SOs), a distinction that is required by LA \pxref{ex:popLA}. \textcite{RizziL_2016} further develops a potential solution, namely to introduce a feature $Lex$ that is stipulated to be present on all lexical items. The feature $Lex$ indicates that an SO is a head, and it may or may not be included in labels created from such SOs (in the case of complex head formation via head movement, for example, Lex is included in the label). There are two immediate issues with this proposal: (a) the proposal violates TLTB (FI), because $Lex$ does not have any clear interpretation at the interface; (b) there is no clear way of determining in what scenarios $Lex$ projects from first principles. By contrast, GP appears to be able to eliminate the problematic head-phrase distinction, by moderately increasing the input to the LA.

@@ -1,0 +1,31 @@
+\subsection{Early generative grammar}\label{sec:210}
+
+Early generative grammars made use of \textit{production systems} consisting of sets of rewrite rules, as originally formalised by \textcite{PostEL_1944} and first applied to language by \textcite{ChomskyN_1951}. The \textit{phrase structure rule} (PS-rule), familiar from \textcite{ChomskyN.MillerGA_1963}, takes a form resembling \pxref{ex:PSruleS}, taken from \textcite{ChomskyN_1965}.
+
+\begin{example}\label{ex:PSruleS}
+$S\rightarrow NP\ Aux\ VP$
+\end{example}
+%
+The so-called \textit{Standard Theory} (ST), represented by \textcite{ChomskyN_1965}, allows a particular I-language to specify a set of PS-rules that generate the sequence of \textit{base phrase-markers} that are permitted to serve as \textit{deep structures} for sentences that are grammatical within the I-language. In order to derive the surface representations, a series of (syntactic, phonological) \textit{transformations} is applied.
+
+In ST, labels have little explanatory significance, as they are merely a symbolic description of a category. The choice of symbols, from the perspective of the system, is entirely arbitrary: there is nothing preventing alternative symbols being used to represent the exact same symbolic rule. For instance, take the PS-rule \pxref{ex:PSrulearb1}, which is isomorphic to the rule in \pxref{ex:PSruleS}.%
+\footnote{Isomorphic literally means `having the same form'. A precise mathematical definition of an isomorphism depends somewhat on the framework a mathematician is working in---e.g. set theory, category theory, geometry, etc. This will not be important here. For discussion of the meaning of isomorphism within the context of symbolic representations in cognitive science, see \textcite{GallistelCR_2001}.}
+
+\begin{example}\label{ex:PSrulearb1}
+$\alpha\rightarrow \beta\ \gamma\ \delta$
+\end{example}
+%
+Similarly, the rule \pxref{ex:PSrulearb21} is isomorphic to the rule \pxref{ex:PSrulearb22}.
+
+\begin{subexamples}\label{ex:PSrulearb2}
+\item\label{ex:PSrulearb21} $NP\rightarrow Det\ N$
+\item\label{ex:PSrulearb22} $\beta\rightarrow \epsilon\ \zeta$
+\end{subexamples}
+%
+As such, PS-rules create an incredibly powerful, recursively enumerable grammar, as proven by \textcite{PostEL_1944,PostEL_1947}. That such a phrase-structure grammar could be part of a genuine explanation for I-language is intuitively problematic, as it readily poses issues with learnability and fails to account for the empirically verifiable limits on syntactic variation. A full review of the insufficiency of phrase structure grammars would be a large diversion, but in simplistic terms ``[i]t just gives the wrong results because it doesn't express the natural relationships or capture the principles'' \parencite{ChomskyN_2009}. PS-rules alone simply do not represent the dependencies that natural language clearly employs. Similarly, they allow relationships between categories to be expressed which have no basis in natural language, such as the nonsensical rule \pxref{ex:PSrulecrazy}.
+
+\begin{example}\label{ex:PSrulecrazy}
+    $NP\rightarrow V\ PP$
+\end{example}
+\noindent
+In short, a theory of UG based on PS-rules thus cannot meet explanatory adequacy, neither accounting for the limits of variation as per \pxref{def:universality} nor the facts of language acquisition as per \pxref{def:learnability}.

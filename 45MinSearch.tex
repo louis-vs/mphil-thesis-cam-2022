@@ -1,0 +1,74 @@
+\subsection{Minimal search}\label{sec:450}
+
+It was established in \autoref{sec:130} and \autoref{sec:140} that MS is of central importance to the operation of \CHL, in particular in the operations of agreement and labelling. Minimal Search is a subcomponent of computational optimality, as represented in \pxref{ex:mobbscompopt}. Optimal search algorithms have thus been an object of study within computer science effectively since its inception. Deciding on the algorithm or class of algorithms which is employed by I-language is an empirical matter. As discussed by \textcite{KeH_2019,KeH_2021}, it may be the case that different subcomponents of I-language employ different search algorithms. There is no \textit{a priori} reason that this should not be the case, even adhering to TLTB. Different search algorithms may be more appropriate and thus more optimal for different kinds of data. Nevertheless, \textcite{KeH_2019} proposes that labelling and agree can indeed be unified under MS, following the conjecture of \textcite{ChomskyN_2013,ChomskyN_2015}. I maintain this proposal here, formalising a unified MS algorithm, hypothesised to form the basis of \Label\ and \Agree, to be defined in \autoref{sec:470} and \autoref{sec:480}, respectively.
+
+\subsubsection{Accessibility and trace-invisibility}
+
+Before discussing the algorithm itself, it must be established what elements are actually available to serve as labels. The notion of W-accessibility was previously defined in \autoref{def:access:1} and \autoref{def:access:2} to account for this, however, it will need to be revised a final time.
+
+It was established in \autoref{sec:300} that lower copies of moved elements are invisible to the labelling algorithm. This allows labelling to derive many cases of movement, as per \textcite{ChomskyN_2013} and subsequent work on labelling, in particular within GDA \parencite{MoroA.RobertsI_2020}. Optimally, if lower copies are invisible to labelling, they should be invisible to all operations.
+
+\begin{definition}\label{def:access:3}
+    An SO $X$ is \textit{W-accessible} at stage $\stage{i}$ iff
+    \begin{enumerate}[(i)]
+        \item\label{def:access:3:i}
+            $W$ contains $X$,
+        \item\label{def:access:3:ii}
+            $T$ does \textit{not} contain $X$, and
+        \item\label{def:access:3:iii}
+            $X$ is at position $P_1$ and there is no occurrence of $X$ at a position $P_2$ such that $X_{P_1}$ is a term of the sister of $X_{P_2}$.
+    \end{enumerate}
+\end{definition}
+\noindent
+Condition \ref{def:access:3:iii} is necessarily somewhat stipulative. Ideally, it would be possible to derive trace-invisibility from something more fundamental; I leave this for future work. In this regard, note that \ref{def:access:3:iii} does conceal the c-command relation (cf. \autoref{fn:c-command}). This undoubtedly carries some significance in relation to the operation of MS.%
+\footnote{Note that the output of \FormCopy\ could be used to find the occurrences of $X$. Since I have not formalised \FormCopy, I leave this possibility to future analysis, cf. \autoref{sec:420}.}
+
+\subsubsection{DFS or BFS?}
+
+The `minimal' in MS comes from the ``previously implicitly assumed but unnoted'' property that ``Minimal Search terminates whenever a target is found'' \parencite[3]{KeH_2021}. In other words, there can only be one candidate target found by MS, so no comparisons between candidate targets are necessary. The question is, then, exactly how this target is reached. Both \textcite{KeH_2019} and \textcite{MilwayD_2021} note the observation from computer science that there are two broad classes of search algorithm: \textit{depth-first} search (DFS) and \textit{breadth-first} search (BFS). DFS prioritises travelling `down' in a tree, corresponding to travelling into more deeply embedded sets, as diagrammed in \pxref{ex:dfs}. BFS explores all nodes at one tier before progressing to the next tier, as diagrammed in \pxref{ex:bfs}. The numbers represent the order in which nodes are traversed.
+
+\begin{example}\label{ex:dfs}
+    \begin{forest}
+        [1 [2 [3] [4]] [5 [6] [7]]]
+    \end{forest}
+\end{example}
+
+\begin{example}\label{ex:bfs}
+    \begin{forest}
+        [1 [2 [4] [5]] [3 [6] [7]]]
+    \end{forest}
+\end{example}
+\noindent
+Applying these algorithms to structures produced by \Merge\ results in a number of issues. Most significantly, \Merge\ produces sets, with no linear order, not trees, as diagrammed above, which are encoded with linear order. As illustrated, both DFS and BFS make use of linear order to determine the search order. As a result, both would be catastrophic if used in the context of labelling. For example, take the trees above: assume that LA is tasked with labelling the node indicated with 1. Assume further that the lowest tier consists solely of heads. In \pxref{ex:dfs}, 3 will serve as the label, in \pxref{ex:bfs}, 4 will serve as the label. (Note that, in this case, both algorithms reach the same node, which may not be the case in a more complex example.) Since the algorithm reaches these nodes first, and since they are heads and thus cannot be searched into, they are immediately returned by the algorithm. In the context of SOs, as opposed to trees, this entails making an arbitrary decision as to which node to choose first, which is clearly empirically unjustified. Further, DFS specifically presents issues. As \textcite{KeH_2019} notes, it does not respect c-command relations, unlike BFS, which has ingrained a notion of superiority, since it prioritises exploring nodes on the same tier. Instead, DFS primarily makes use of the containment relation. Additionally, DFS simply derives the wrong results: DFS would entail travelling potentially many levels deep into a structure, when if it just looked at the initial sister it would find a head immediately. DFS just does not capture the kinds of relations found in language, and should be discarded. Despite this, \textcite[17]{MilwayD_2021} argues that DFS ``retains a certain theoretical and aesthetic appeal'' and thus should remain under consideration. He notes that some authors, namely \textcite{BrananK.ErlewineMY_,PremingerO_2019}, argue for a DFS-based MS algorithm. However, these proposals require that Merge be defined asymmetrically, making this implausible in a system that uses set-Merge as in \autoref{def:merge}, eliminating linear order in line with the SMT.%
+\footnote{\textcite[17]{MilwayD_2021} claims that \citeposs{KeH_2019} algorithm is ``parallelized DFS'', although this directly contradicts \citeposs[48]{KeH_2019} own assertion that ``[t]he search algorithm in the definition of minimal search [] is breadth-first''.}
+
+\textcite{MilwayD_2021} overcomes the linear order issue by appealing to what he terms `Minimal Tiered BFS' \parencite[15]{MilwayD_2021}. In such a system, all SOs on a particular tier of the BFS algorithm are considered part of the same set, and are accessed simultaneously in order to identify the target. In the course of the algorithm, structure is thus ignored. I adopt Tiered BFS here.
+
+\subsubsection{Domain and target}\label{sec:452}
+
+Before presenting the formalisation of MS in \autoref{sec:453}, the parameters to the algorithm need to be established. As pointed out by \textcite{KeH_2019}, the search algorithm (SA) is only one aspect of MS. In order to operate, SA needs two further elements a \textit{search domain} (SD) and a \textit{search target} (ST). In order to unify MS, SA and SD may be provided as parameters. This enables SA to be highly flexible---which is a highly desirable outcome, since SA is presumed to be a third factor. Indeed, the parameterisation of SA quite neatly demonstrates the interaction between factors discussed in \autoref{sec:110}, with the first factor specifying ST. Indeed, I would suggest that the second factor is also incorporated into ST, since it presumably relies on lexical specification to determine whether the target has been found, and the lexicon is the source of syntactic variation (see \autoref{sec:150}).
+
+There must necessarily be constraints on the parameters for SA. \textcite[44]{KeH_2019} states that SD consists of sets and ST features. In the present formalisation, SD shall be sets of SOs in particular. ST, however, I assume to be more complex. The primary reason for this is that ST being a specific feature or set of features seems appropriate for Agree, but not for Label. In the latter case, any set of features can be considered a label---what is important is the structure more generally. If SD for Label is effectively `anything goes' (as long as its something that bears features, i.e. a non-root head), then a problem arises. Namely, feature sharing arangements, discussed in \autoref{sec:300} as being crucial to modern labelling theory, are impossible under such a theory. Indeed, this is noted by \textcite{KeH_2019}, who proposes that, in scenarios where two heads are found simultaneously, it is the pair of heads that serves as the label, rather than their intersecting features. This is effectively justified by appealing to \textcite{TakitaK_2020}, who argues that labelling is required only by SM, not C-I. This is a radical departure from the assumptions of the preceding discussion, and so ought to be avoided. A second, more general reason to suggest a more complex ST is that it allows SA to be much more flexible. As SA is presumed to be a domain-general third factor, this is a desirable outcome.
+
+The question is then of how to formalise a generalised ST. The solution I adopt is to allow ST to be a function definition, which takes an SD as its domain. In the process of search, SA applies the function at each tier. The codomain of the ST function is then $\emptyset$ plus the range of possible matched items, whether this be individual (sets of) features (as in the case of Agree and feature-sharing label) or entire heads (as may be also the case for Label). ST also determines the output of the search procedure itself, as SA returns whatever is matched, which is the output of ST. This enables what \textcite[23]{ShimJY_2018} terms ``comparison search'', but without necessarily imposing a greater computational burden as he argues.
+
+\subsubsection{Defining minimal search}\label{sec:453}
+
+It is now possible to formally define our SA.
+
+\begin{definition}\label{def:MS}
+    For SD $\delta$, a set of SOs, and ST $\tau$, a unary function:
+    \begin{enumerate}[(i)]
+        \item\label{def:MS:i}
+            If $\delta = \emptyset$, $\Sigma(\delta,\tau) = \emptyset$,
+        \item\label{def:MS:ii}
+            Else if $\tau(X) \neq \emptyset$, $X \in \delta$, then $\Sigma(\delta,\tau)=\tau(X)$,
+        \item\label{def:MS:iii} 
+            Else, $\Sigma(\delta,\tau) = \Sigma(\bigcup\{X \in \delta : X$ is W-accessible and $X \notin \LEX\},\tau)$.
+    \end{enumerate}
+\end{definition}
+\noindent
+Conditions \ref{def:MS:ii} and \ref{def:MS:iii} represent the crucial recursive workings of the operation. This part of the algorithm first checks if the current SD contains a matching element, and if it does, it returns whatever the matching function itself returns. Then comes the recursive step: if no matching element is found, perform the algorithm again using the arbitrary union of all SOs immediately contained by SD that are not lexical items. Condition \ref{def:MS:i} is a fallback that allows search to fail entirely. This foreseeably results in the derivation crashing at the interfaces in most cases, although this is not \textit{a priori} necessary. For instance, adjuncts might be unlabelled \parencite[see][]{BlumelA_2017a}.
+
+As planned, this algorithm combines the tripartite architecture formalised by \textcite{KeH_2019} with \citeposs{MilwayD_2021} formal framework, inherited from \CS. In particular, the arbitrary union definition of tiers is taken from \textcite[16]{MilwayD_2021} as is the recursive operation of the algorithm. \autoref{def:MS} also incorporates the novel flexibility of \ST. A further benefit of this latter point is that the output of \MS\ does not have to be arbitrarily defined for each instantiation of the function. \textcite{KeH_2019} has to do this in his formalisation, because (a) he does not paramaterise \MS\ (but rather defines it as a tuple), and (b) he does not allow ST to be a function. In my case, a single call to \MS\ contains all the information needed to determine its precise operation.
+

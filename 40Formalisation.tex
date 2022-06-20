@@ -1,0 +1,35 @@
+\section{Formalisation}\label{sec:400}
+
+The formalisation to follow is framed in a manner inspired by the presentation of \textcite{CollinsC.StablerE_2016}, henceforth \CS. In \autoref{sec:410} through \autoref{sec:440}, fundamental definitions are adapted from \CS. In most cases, however, this adaptation is not verbatim; rather, numerous adjustments are documented, in line with the discussions within the preceding sections. \autoref{sec:450} presents the core of the labelling algorithm: the procedure of minimal search. This subsection builds upon the algorithm presented by \textcite{KeH_2019}, adapting it into the style of \CS\ and adjusting its operation in line with the results of the preceding investigation. \autoref{sec:460} presents a barebones formalisation of features, enabling the definition of the labelling algorithm itself in \autoref{sec:470}. Agreement is given brief attention in \autoref{sec:480}. Finally, some key theoretical results are discussed in \autoref{sec:490}.
+
+Before embarking, there are some initial caveats to bear in mind. Firstly, the model assumed by \CS\ is one which does not assume in full the proposals of Distributed Morphology (DM), in particular the mechanism of Late Insertion \parencite{HalleM.MarantzA_1993}. Adopting this aspect of DM would require a major reformulation of Transfer, which is beyond the scope of the present work (cf. \nptextcite[f.n.~2]{MilwayD_2021} for a similar point). Late Insertion entails that lexical items are not directly bundled with phonological features, but such features will play only a limited role in this formalisation in any case. Nevertheless, one of the assumptions within DM will be adopted, as it is now now commonly held within a range of theoretical approaches. Namely, lexical \emph{roots} are considered to be `bare', without any \emph{syntactic} features (see \autoref{def:lexroot} and \nptextcite{MarantzA_1997, BorerH_2005, BorerH_2005a, BorerH_2013, BaukeL.BlumelA_2017a}). Properties such as category are instead provided by closed class categorisers like \littleN, \littleV, and \littleA.%
+\footnote{\label{fn:littleV}One consequence of this is that categoriser \littleV\ must be totally distinct from the `light verb' \littleV\ that appears above VP and introduces the external argument. \littleVP\ has a complicated history, developing out of Larsonian VP-shells \parencite{LarsonRK_1988}, termed `light v(erb)' by \textcite[315-316]{ChomskyN_1995}, and extended by \textcite{KratzerA_1996}, who terms the phrase VoiceP. VoiceP is also used by subsequent researchers, but tends to carry more theoretical baggage. In the interest of staying true to the literature, especially in the context of phases, where \littleVP\ standardly refers to the lower (thematic) phase, I will use \littleV\ to refer to both the light verb and the categoriser; the semantics should be clear from the context.}
+I will follow \textcite{ChomskyN_2015} in \autoref{sec:310} by assuming that roots cannot provide a label (as a result of having no syntactic features to project) and that, consequently, the root must Merge directly with its categoriser as the first step of a derivation. The root is thus the zero-element of \textcite{WatumullJ_2015}; the start symbol of the derivation.%
+\footnote{Note that this contradicts the assertion of \textcite[7]{AdgerD.RobertsI_} that it is phase heads which provoke the start of computation. This cannot literally be true, however, since computation must begin before the phase head is introduced, since the phase head can itself only be introduced by a computational operation (in my formalisation, \Select, see \autoref{sec:430}). This issue is discussed further in \autoref{sec:440}.}
+
+Basic (naïve) set theory is assumed. Standard notation is as follows, borrowing partly from \CS[43]. Sets are written with curly braces $\{...\}$ and are unordered. The following symbols are used to represent relations between sets and their elements: $\in$ (is a member of), $\cup$ (union), $\cap$ (intersection), $\subseteq$ (is a subset of), $\subset$ (is a proper subset of).%
+\footnote{For a set $A$, $A\subseteq A$ but $A\nsubset A$.}
+The empty set is written $\emptyset$ or $\{\}$. Given sets $A$ and $B$, the set difference $A-B=\{\ x\ |\ x\in A,\ x\notin B\ \}$. A sequence $\langle ... \rangle$ is ordered; the empty sequence is written $\varepsilon$ or $\langle\rangle$. A sequence of length 2 is a pair, one of length $n$ is an $n$-tuple. Free variables are assumed to be universally quantified, such that $x$ is shorthand for $\forall x,\ x$. The Cartesian product is represented by $\times$; the following shorthand using indices will also appear: $X^n = X_1 \times X_2 \times ... \times X_n$. The arbitary union is notated as $\bigcup X = x_1 \cup ... \cup x_n$ for a set $X=\{x_1,...,x_n\}$, and can also be given limits. The Kleene closure $A^* = \bigcup_{i=0}^{\infty} A^i$.%
+\footnote{For a fuller explanation of the elements of naïve set theory beyond the scope of this thesis, see \textcite{KaplanskyI_1972,EndertonHB_1977}. See \textcite[87]{HopcroftJE.etal_2013} on Kleene closure (a.k.a. the `Kleene star').}
+A \textit{function} is a mapping between sets, and can take any number of \textit{parameters} (when a function is invoked, these will be called \textit{arguments}). For notational ease, where a set is passed in as an argument, it may either be taken itself as the entire argument, or as shorthand for its members being the arguments (see \autoref{def:matchLI} for an example of the latter case).
+
+Tree diagrams will occasionally be used in place of complex bracketed sets. These trees will often encode more information than is present in the sets themselves (such as labels and linear order) for expositional reasons, as is standard. For lack of space, the precise relationship between graph-theoretic trees and sets will not be explored. It suffices to say that there is a surjective (many-to-one) function $\Zeta(t)$ which maps a tree $t$ onto its corresponding SO---multiple trees could be used to represent the same SO.%
+\footnote{See \textcite[Chapter 15]{AvigadJ.etal_2017} on functions in set theory.}
+
+\input{41Preliminaries}
+
+\input{42CopRep}
+
+\input{43Derivations}
+
+\input{44Phases}
+
+\input{45MinSearch}
+
+\input{46Features}
+
+\input{47Label}
+
+\input{48Agree}
+
+\input{49Other}

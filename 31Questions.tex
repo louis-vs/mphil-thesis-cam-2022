@@ -1,0 +1,36 @@
+\subsection{Key questions}\label{sec:310}
+
+The present era of labelling research assumes at minimum some kind of LA. However, almost every aspect of LA, on both the computational and algorithmic levels, is up for debate. As detailed in \autoref{sec:200}, the issues at hand have been up for discussion under different guises at least since the dawn of the generative programme. \pxref{ex:questions} summarises the central questions.
+
+\begin{subexamples}\label{ex:questions}
+    \item\label{ex:questions:how} How is the label of a particular structure chosen?
+    \item\label{ex:questions:what} What features can be identified as labels?
+    \item\label{ex:questions:when} At what point in the derivation does labelling occur?
+    \item\label{ex:questions:interact} How do labels interact with other (post-)syntactic processes?
+\end{subexamples}
+\noindent
+The following discussion will review the ways in which these questions have been given answers in the literature following the research programme instigated by \textcite{ChomskyN_2013,ChomskyN_2015}. The discussion will remain purely formal and will provide the foundation for the theory to be formalised in \autoref{sec:400}.
+
+Before considering the questions of \pxref{ex:questions} carefully in turn, it is worth briefly summarising the LA presented by \textcite{ChomskyN_2013,ChomskyN_2015}. A definition is provided in \pxref{ex:popLA}.
+
+\begin{subexamples}[
+    preamble={\textit{The Labelling Algorithm of \textcite{ChomskyN_2013,ChomskyN_2015}}}
+]\label{ex:popLA}
+    \item\label{ex:popLA:a}
+        For $\alpha = \{H, XP\}$, for $H$ an LI and $XP$ a complex SO, $label(\alpha) = H$.
+    \item\label{ex:popLA:b}
+        For $\alpha = \{XP, YP\}$, for $XP, YP$ complex SOs, either:
+        \begin{enumerate}[(i)]
+            \item\label{ex:popLA:bi} if $YP$ is a lower copy of a moved SO, then $label(\alpha) = label(XP)$; else,
+            \item\label{ex:popLA:bii} $label(\alpha) = \pair{F_1}{F_2}$, where $F_1$ and $F_2$ are `prominent' features or sets of features shared by $XP$ and $YP$, potentially with different values/interpretability.
+        \end{enumerate}
+    \item\label{ex:popLA:c}
+        For $\alpha = \{H, R\}$, for $H, R$ LIs, $H$ a functional head serving as a categoriser and $R$ a root, $label(\alpha) = H$.
+    \item\label{ex:popLA:LI}
+        For $H$ an LI, $label(H)=H$.
+\end{subexamples}
+\noindent
+Note that this definition is already more articulated than anything formalised in the cited works, incorporating what I consider to be implicit therein.
+
+If an SO does not satisfy any of the criteria in \pxref{ex:popLA}, it does not receive a label, and is thus, by hypothesis, rejected by the interfaces. Being an informal definition, a number of questions immediately arise as a consequence of \pxref{ex:popLA}. For instance, there needs to be a way of determining whether an SO is a phrase (i.e. complex) or a head. There also needs to be a way of determining the head of a complex SO. Case \pxref{ex:popLA:c} also introduces a critical stipulation: that the only time $\{X,Y\}$ structures can occur (for LIs $X, Y$) is in the case where a root merges with its categoriser, following the theory of functional heads and bare roots in particular as espoused by \textcite{MarantzA_2013}, cf. also \textcite{BorerH_2005,BorerH_2005a,BorerH_2013}. These issues will resurface in the subsequent discussion. Case \subexref{ex:popLA:b}{i} requires `movement' to be defined in a way that is accessible to LA, and \subexref{ex:popLA:b}{ii}, which I refer to as \textit{feature-sharing}, requires articulation of a feature theory (see \autoref{sec:460}).
+

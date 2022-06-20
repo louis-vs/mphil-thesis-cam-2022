@@ -1,0 +1,54 @@
+\subsection{Phases and cyclic transfer}\label{sec:440}
+
+A conclusion from \autoref{sec:200} and \autoref{sec:300} is that there should optimally be only one computational cycle involved in generating syntactic structures. Operations that are countercyclic should be avoided, as well as assumptions that there can be multiple cycles operating in series---this latter point was essential to GB but abandoned in Minimalism. As a consequence, one must beware of introducing cycles underhandly, masquerading as other operations or as being `at the phase-level'.
+
+On my view, Transfer is a potential source of accidental multiple cyclicity. One questions that could arise with respect to this is, what kinds of objects does Transfer `send' to the interface? But even this may be a misnomer, as the scare quotes illustrate: as emphasised by \textcite{ChomskyN_2021} and noted above in \autoref{sec:220}, derivational access can in theory be at any point. If this is the case, the interface should be able to see the entire generated structure at once. Also, along similar lines, it is the entire workspace that should be `transferred', viz. viewed. Otherwise, if interfaces were arbitrarily able to select parts of the workspace to view, there would be massive overgeneration (i.e. beyond what may be covered as deviance, cf. \nptextcite{ChomskyN_2019a,ChomskyN_2021}).
+
+A problem with Transfer that is relevant here is what \CS[67] dub the \textit{Assembly Problem}, labelling an issue that arose in the original presentation of multiple spellout \parencite{UriagerekaJ_1999}. The problem boils down to a tension between the requirement to derive subjacency effects, namely phase impenetrability, and the need to retain memory of where, in the syntactic structure that is being derived, the transferred element was. An additional, related problem is that the internal structure of objects that have been `transferred' may need to be visible to later operations---\CS[72--73] describe how this is the case with the phenomenon of remnant movement. \CS\ formalise what they call the \textit{plug-back-in} model, but this option both erases the internal structure of what is transferred and requires the definition of SO to be expanded. This would also prevent Agree from crossing phase boundaries, which is argued for by \textcite{BoskovicZ_2007a}. Further, this clearly violates the NTC, contradicting computational optimality. \CS[73--74] sketch an alternative which focuses on the crucial notion, namely \textit{accessibility}. To capture the main effect of phase impenetrability, \Merge\ should not be able to apply to transferred elements. We have already established the importance of accessibility with the notion of W-accessibility in \autoref{def:access:1}, so this will clearly need to be modified in order to deal with cyclic transfer. \CS[73--74] suggest that the computational system should ``keep a set of syntactic objects that have been transferred, and then block all access to those transferred elements''---in determining accessibility, the set of transferred elements needs to be checked.
+
+\begin{definition}
+    A set of transferred elements $T$ is either a set of SOs or $\emptyset$.
+\end{definition}
+
+\begin{definition}\label{def:stage}
+    A stage of a derivation $S_i = \langle W_i, T_i \rangle$, where $W_i$ is a workspace and $T_i$ is the set of transferred elements.
+\end{definition}
+\noindent
+The introduction of more complex derivational stages will require some adjustments to the definitions given in \autoref{sec:430}. First, let's redefine W-accessibility.
+
+\begin{definition}\label{def:access:2}
+    An SO $X$ is \textit{W-accessible} at stage $\stage{i}$ iff $W$ contains $X$ and $T$ does \textit{not} contain $X$.
+\end{definition}
+\noindent
+Transfer can now be defined simply, as an operation ranging over sets of transferred elements.
+
+\begin{definition}\label{def:transfer}
+    $Transfer(X, T) = T \cup \{X\}$, for set of transferred elements T and $X$ an SO.
+\end{definition}
+
+Transfer should be no more complex than this. However, there appears to be a conflict here with how phases operate---all operations should be on the phase-level, including Merge, Agree, Label and Transfer. This cannot literally be true, since this entails lookahead, as noted by [EKS] and accepted by [Chomsky]: operations must occur before any phase head has been Merged. When coupled with the greater interface proximity afforded by the Minimalist architecture, I believe this entails a return to a stricter, bottom-up cyclicity. Further, there is no need for any algorithm or operation to occur outside of this cycle, as all operations are interface-driven.
+
+Phases exist to further restrict accessibility, creating subjacency effects \parencite{ChomskyN_1973}. In the Minimalist literature, this comes in the form of the PIC (see \autoref{sec:145}). Phases also define valid Transfer domains---transfer occurring at any other point does not construct a valid derivation. Note that the principle that operations take place freely and that access to the derivation can be at any point \parencite{ChomskyN_2021} entails that Transfer, like Merge, is not `triggered' by, say, the Merging of a phase head. It may be possible to extend this formalisation to capture a broader interpretation of the idea that all operations take place `on the phase level', which is more in line with typical Minimalist assumptions \parencite[cf.][]{AdgerD.RobertsI_}. There is not space here to discuss developments along these lines.
+
+With \Transfer\ being defined as in \autoref{def:transfer}, it is necessary to redefine derivation, originally \autoref{def:derivation:1}, incorporating the more complex stages of \autoref{def:stage} and introducing derivation-by-transfer.
+
+\begin{definition}\label{def:derivation:2}
+    A \textit{derivation} within $L$ is a finite sequence of stages $\langle \stage{1}, ..., \stage{n} \rangle$, for $n \geq 1$, such that:
+    \begin{enumerate}[(i)]
+        \item $W_1 = T_1 = \emptyset$,
+        \item For all $i$, such that $1 \leq i < n$, and for some (accessible, distinct) SOs $A$, $B$,:
+        \begin{enumerate}[(a)]
+
+            \item (\textit{derivation-by-select}) $T_{i+1} = T_i$ and $W_{i+1} = Select(A, W_i)$, or
+
+            \item (\textit{derivation-by-merge}) $T_{i+1} = T_i$ and $A$ or $B$ is a root and $W_{i+1} = Merge(A, B, W_i)$.
+
+            \item (\textit{derivation-by-transfer}) $T_{i+1} = Transfer(X, T_i)$ for $X$ a W-accessible SO contained in $W_i$ and $Y$ a root, such that $Label(X)$ and $Label(Y)$ are phasal and $Y$ contains $X$.
+
+        \end{enumerate}
+    \end{enumerate}
+\end{definition}
+
+Note that derivation-by-transfer requires \Label, although I reserve definition of this until \autoref{sec:470}, after the definitions of MS and of features. I have also left the notion of \textit{phasal} undefined---indeed, I leave this entirely open-ended, as there has not been space to review approaches to phases in enough detail to establish a way forward. Where necessary, I will adopt the standard approach discussed in \autoref{sec:145}: a label $\alpha$ is \textit{phasal} if the categorial feature corresponding to $C$ or $v^*$ is a member of $\alpha$.%
+\footnote{Features are defined in \autoref{sec:460}, labels in \autoref{sec:470}.}
+

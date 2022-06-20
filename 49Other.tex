@@ -1,0 +1,21 @@
+\subsection{Key conclusions}\label{sec:490}
+
+This subsection summarises some of the issues that arise from the formalisation as present.
+
+\subsubsection{Computational and substantive optimality}\label{sec:491}
+
+There are a number of properties of this theory that are in line with MaxTP and TLTB. Most importantly, this theory maintains MY as a theorem.
+
+\begin{theorem}[MY]\label{thm:MY}
+    For consecutive stages $S_i$ and $S_{i+1}$, $S_{i+1}$ may only have up to one more W-accessible object than $S_i$.
+\end{theorem}
+
+The NTC and the Extension Condition can also both be derived as theorems as done by \CS[58-59]. Note, however, that both \CS\ and \textcite{MilwayD_2021} ultimately propose theories that violate NTC. They respectively claim that Transfer and Agree require lower structure to be substituted. In my formalisation, I adopt ledgers instead, again trading time complexity for space complexity.
+
+\subsubsection[\Agree\ and \Label]{$\mathbfit{\Agree}$ and $\mathbfit{\Label}$}\label{sec:492}
+
+Crucially, \Agree\ and \Label\ conspire to form syntactic dependencies throughout constructed SOs. In cases where a label is a valued-unvalued pair $\pair{\feature{i}}{\featureUV{i}}$, \Agree\ would not need to operate. This clearly identifies the precise nature of the redundancy between \Agree\ and \Label. Namely, it is not the fact that both operations utilise MS that creates the redundancy, since as shown by the formalisation in \autoref{sec:450}, they each use different instantiations of SA. Instead, the redundancy is in their outcomes: they both result in creating relations between features.
+
+\subsubsection[\texorpdfstring{$Label \in UG$}{Label in UG}?]{\texorpdfstring{$\mathbfit{Label \in UG}$}{Label in UG}?}\label{sec:493}
+
+Labelling theory is not yet at the stage where \Label\ can be totally dissociated from UG. As shown in \autoref{sec:450}, whilst SA is potentially domain-general, its parameters, ST and SD, are narrowly syntactic. As a result, \Label\ is required to be included in \autoref{def:UG}. In line with OM and MM, future work could help determine whether this stipulation could be dropped.

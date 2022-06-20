@@ -1,0 +1,111 @@
+\subsection{Merge, workspaces and derivations}\label{sec:430}
+
+With the atoms of computation in place, it is possible to implement the most important definitions---namely, what representations syntax constructs and how these are computed.
+
+\begin{definition}\label{def:SO}
+    X is a \textit{syntactic object} SO iff:%
+    \footnote{`If and only if', i.e. logical equivalence ($\leftrightarrow$).}%
+    \begin{enumerate}[(i)]
+        \item\label{def:SO:i}
+            X is a lexical item, or
+        \item\label{def:SO:ii}
+            X is a set of SOs formed by applicated of \Merge.
+    \end{enumerate}
+\end{definition}
+\noindent
+SOs are thus defined recursively.%
+\footnote{`Recursion' is used in this thesis in the strictly mathematical sense, as extensively discussed by \textcite{WatumullJ.etal_2014a}.}
+Condition \ref{def:SO:ii} is much stronger than the definition in \CS. I believe it is justified following the preceding discussion in \autoref{sec:422}: by opening up the definition of SO to be simply any set that contains other SOs, we stray into the territory of notational games---ontologically speaking, a set is only an SO if it is formed by \Merge, to be defined in \autoref{def:merge}.
+
+A couple of useful relations can be taken straight from \CS, primarily to simplify some definitions to come.
+
+\begin{definition}
+    For SOs $A$ and $B$, $B$ \textit{immediately contains} $A$ iff $A \in B$.
+\end{definition}
+
+\begin{definition}
+    For SOs $A$ and $B$, $B$ \textit{contains} $A$ iff
+    \begin{enumerate}[(i)]
+        \item $B$ immediately contains $A$, or
+        \item for some SO $C$, $B$ immediately contains $C$ and $C$ contains $A$.
+    \end{enumerate}
+\end{definition}
+\noindent
+I add to these a further definition for ease of exposition, effectively to represent the inverse of containment (cf. \nptextcite{ChomskyN_2019a,EpsteinSD.etal_2020}).
+
+\begin{definition}
+    For SOs $A$ and $B$, $B$ is \textit{a term of} $A$ if $A$ contains $B$.
+\end{definition}
+\noindent
+\CS's definition of a `lexical array' is not required following the elimination of \LIk s, in line with \textcite{ChomskyN.etal_2019}, cf. also \CS\ (f.n.~4). How this plays with cyclicity and phases will be discussed in \autoref{sec:450}. Consequently, a `stage' of a derivation is equivalent to a workspace: ``WS [the workspace] represents the stage of a derivation at any point'' \parencite[245]{ChomskyN.etal_2019}.
+
+\begin{definition}
+    A \textit{workspace} $W$ is either a set of SOs or $\emptyset$.
+\end{definition}
+\noindent
+As per \CS[47], ``[a] workspace includes all the syntactic objects that have been built up at a particular stage in the derivation''. Note that, using \autoref{def:merge}, a workspace is not actually an SO, as in \textcite[37]{ChomskyN_2020a} but unlike in \CS.
+
+\begin{definition}\label{def:root}
+    For any SO $X$ and workspace $W$, if $X \in W$, $X$ is a \textit{root} in $W$.
+\end{definition}
+\noindent
+Careful not to confuse this with the very distinct notion of L-root in \autoref{def:lexroot}. There may be multiple roots in a workspace. This definition will prove useful in the definition of Merge and derivations below.
+
+Next, it is time to derive the operation \Merge\ itself. It is possible, as done by \CS, to define Merge much as done in \autoref{sec:140} and in \pxref{ex:twomerges:nolabel}---namely, to say that Merge takes two inputs and returns a set as output. Formally, however, either Merge must make reference to the workspace, or there must be some additional stipulation outside of Merge as to the nature of a legitimate derivation. The latter option is taken by \CS, but this entails `derivation' to have properties that extend beyond UG, but which are not given a clear third factor justification. Instead, I adopt here the ternary definition from \textcite{ChomskyN_2021}, which is provided more formal structure by \textcite{SeelyTD_2021}, and which is adopted here. This definition further requires a notion of \textit{accessibility}, which determines which SOs are available to be Merged.
+
+\begin{definition}\label{def:access:1}
+    An SO $X$ is \textit{W-accessible} within a workspace $W$ iff $W$ contains $X$.
+\end{definition}
+\noindent
+Note that SOs in \LEX\ are always accessible in some broader sense, since they can be externally Merged. This should, however, come at a cost---EM is penalised over IM because of the increased search space (and hence computationally by MinSearch). Hence, the more restricted form of accessibility, W-accessibility, is defined. This notion is to be revised below, in \autoref{def:access:2} and \autoref{def:access:3}.
+
+Chomsky claims that EM is more computationally complex than IM as a consequence of requiring `massive search'. This is accurate only by hypothesis, however. \textit{A priori}, with no assumptions made about the structure of the lexicon, it is not possible to make any claims as to how lexical search operates. There is no reason to believe that a search algorithm similar to one used to trawl syntactic structures would be in place in the lexicon. Indeed, one could quite easily conceive of a data structure for the lexicon that requires no search at all, and that has a constant-time access algorithm. For example, imagine there is a deterministic function $\chi(x)$ that returns a unique output for each input. Each unique output corresponds to a possible location in memory where a lexical item can be stored. Assuming that the procedure of applying Merge has some kind of key $k$ ready for which the lexicon will be `searched', the procedure can merely run $\chi(k)$, which returns the needed location in memory, such that the full LI can be accessed.%
+\footnote{This data structure is known as a \textit{hash map} or \textit{hash table} in computer science. It seems unrealistic that the lexicon actually works like this, but the actual implementational details are irrelevant at this algorithmic level of analysis (see \autoref{sec:110}).}
+
+Nevertheless, we want to capture the idea that `NS-internal' computation is in some way more optimal than computation which accesses the lexicon. Hence, I introduce the operation \Select, which must operate in order to introduce new items into the workspace from \LEX. This definition is borrowed from \CS\ (f.n.~4), adapted to drop the notion of lexical array.
+
+\begin{definition}
+    For an SO $X\in\LEX$ and workspace $W$, $\Select(X, W)=\{X\} \cup W$.
+\end{definition}
+\noindent
+Next, the primary way of manipulating the workspace, and the most fundamental operation in syntax: \Merge.
+
+\begin{definition}\label{def:merge}
+    $\Merge(P, Q, W)=\{\{P, Q\}, X_1, ..., X_n\}=W'$, such that
+    \begin{enumerate}[(i)]
+        \item $P$ and $Q$ are W-accessible within workspace $W$,
+        \item $P \neq Q$, and
+        \item for all SOs Y, $(Y \in W \wedge Y \notin \{P, Q\}) \rightarrow Y \in \{X_1, ... X_n\}$.
+    \end{enumerate}
+\end{definition}
+\noindent
+In sum, the \textit{domain} of \MERGE\ is all the W-accessible SOs in a workspace; the \textit{codomain} of \MERGE\ is the (discretely infinite) set of all SOs (cf. \nptextcite{WatumullJ_2015}). The final condition on Merge is required according to \textcite{ChomskyN_2021} in accordance with the SMT. It sustains MY (see \autoref{sec:145}). Importantly, there is no condition on the nature of the input SOs $P$ and $Q$ other than that they are W-accessible, which is substantively necessary (by Inclusiveness), and that they are distinct, ruling out self-Merge (\textit{pace} \nptextcite{AdgerD_2013}, see \CS, p.~48). IM and EM are thus totally equivalent at time of Merge, and thus cannot be distinguished even on the phase-level, assuming stricly Markovian derivations (see \autoref{sec:145} and also \autoref{def:WspaceAccess} below). The only difference is that EM requires application of \Select\ at the previous stage of a dervation.
+
+Next, derivations themselves may be defined, making use of this new definition of Merge.
+
+\begin{definition}\label{def:derivation:1}
+    A \textit{derivation} within $L$ is a finite sequence of workspaces $\langle W_1, ..., W_n \rangle$, for $n \geq 1$, such that:
+    \begin{enumerate}[(i)]
+        \item $W_1 = \emptyset$,
+        \item For all $i$, such that $1 \leq i < n$, and for some (accessible, distinct) SOs $A$, $B$,:
+        \begin{enumerate}[(a)]
+            \item (\textit{derivation-by-select}) $W_{i+1}=Select(A, W_i)$, or
+            \item (\textit{derivation-by-merge}) $A$ or $B$ is a root and $W_{i+1}=Merge(A, B, W_i)$.
+        \end{enumerate}
+    \end{enumerate}
+\end{definition}
+\noindent
+The root condition entails that Merge is always `at the root', which is necessary to derive MY. From this emerges a natural definition of \textit{workspace accessibility}.
+
+\begin{definition}\label{def:WspaceAccess}
+    A workspace $W$ is \textit{accessible} at stage $i$ of a derivation $\langle W_1, ..., W_n \rangle$ iff $W = W_i$.
+\end{definition}
+\noindent
+This captures the strict Markovian property of derivations. Indeed, workspace accessibility constitutes a generalisation of the Goldfish Property introduced in \pxref{def:gp}. Whilst in the context of its introduction, the property applied only to LA, being a principle of computational optimality it should hold for every operation within $L$. The property can thus be generalised into a principle, and ideally would emerge as a theorem.
+
+Finally, the culmination of a derivation is a single SO.
+
+\begin{definition}
+    A syntactic object $X$ is \textit{derivable} within $L$ iff there is a derivation $\langle W_1, ..., W_n \rangle$ where $W_n = \{X\}$.
+\end{definition}
+

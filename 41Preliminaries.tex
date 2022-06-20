@@ -1,0 +1,37 @@
+\subsection{Preliminaries}\label{sec:410}
+
+\CS\ provide a number of definitions which lay out the foundations of a formalisation of Minimalist syntax. Many of these will, however, need some revision in light of the preceding discussions in \autoref{sec:100}, \autoref{sec:200} and \autoref{sec:300}. The purpose of this subsection is to lay out a revised set of fundamental definitions.
+
+Naturally, the first definition to come is that of I-language itself. (cf. \autoref{sec:141}).%
+\footnote{\label{fn:FormalConventions}Some notes on conventions: sets are indicated with capital letters (or words in all caps), functions with $CamelCase$.}
+
+\begin{definition}\label{def:UG}
+    \setstretch{1.0}
+    UG is a 9-tuple:%
+    \[UG=\langle \Fphon, \Fsyn, \Fsem, \Select, \Merge, \Agree, \Label, \Transfer, \FormCopy, \ffSM, \ffCI \rangle\]%
+    where $\Fphon\cap\Fsyn=\Fsyn\cap\Fsem=\Fsem\cap\Fphon=\emptyset$.
+\end{definition}
+\noindent
+Thus, I-language consists of three non-intersecting sets of features, and six further functions. Although termed UG, constituent operations are intended to draw on domain-general mechanisms as much as possible, in line with OM and MM. The choice of feature sets is intended to be as theory-neutral as possible, without making any claims as to the precise structure of features and lexical items except where necessary. In the elaboration of \Label\ and \Agree, some development of the feature theory will be required.%
+\footnote{For one possible formal theory of features, see \textcite{AdgerD_2010,AdgerD.SvenoniusP_2011}. Cf. also \textcite{CarlsonJOE_2010,SongC_2019,StockwellR_2015,RobertsI_2019} for theories of features with more or less coverage and with varying degrees of formality.}
+
+The definition is notably more complex that that adopted by \CS. Following \textcite{MilwayD_2021}, I have included \Agree\ as a function. I have also added \Label, to be defined. As per \autoref{sec:141}, \ffSM\ and \ffCI\ are the phonological and semantic mappings respectively. I include these as they ought to be defined in a complete formal theory of I-language, although they will receive little attention here. \FormCopy, an operation adapted from \textcite{ChomskyN_2021}, receives justification in \autoref{sec:420}.
+
+As described in \autoref{sec:100}, UG is (broadly) species invariant. Variation is accounted for via the lexicon, \LEX, as per the BCC. In \Szero, $\LEX=\emptyset$. In the final state, \LEX\ consists of lexical items, composed of features. This is accounted for in the following definitions, lifted from \CS.
+
+\begin{definition}
+    A lexical item is a triple: $\LI=\langle \PHON,\SYN,\SEM \rangle$ where $\PHON\in(\Fphon)^*$, $\SYN\subseteq\Fsyn$, and $\SEM\subseteq\Fsem$.%
+\end{definition}
+
+\begin{definition}\label{def:lexroot}
+    An LI $\langle \PHON,\SYN,\SEM \rangle$ is a \textit{lexical root} (L-root) iff $\SYN=\emptyset$.%
+        \footnote{I leave open the possibility that \SEM\ is empty for roots (see \nptextcite{BorerH_2013}). Since I leave the feature theory in \autoref{sec:460} very vague, this is not a problem. Note however that if `interpretable' features are members of \Fsem\ and can serve as labels, this would leave \autoref{thm:rootinvis} underivable.}
+\end{definition}
+
+\begin{definition}
+    A \textit{lexicon} is a finite set of LIs.
+\end{definition}
+
+\begin{definition}
+    I-language is a pair $L = \langle \LEX, UG \rangle$, where \LEX\ is a lexicon.
+\end{definition}

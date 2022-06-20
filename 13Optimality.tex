@@ -1,0 +1,54 @@
+\subsection{Computational and substantive optimality}\label{sec:130}
+
+I-language is a computational procedure, in the sense pioneered by Turing and his contemporaries \parencite{TuringAM_1936}. It is therefore natural to analyse it in terms of complexity theory, terms increasingly apparent with the dawn of MP.
+
+MP as defined by the first three proposals in \pxref{ex:minprops} allows specific hypotheses and heuristics regarding computational complexity to be made. \textcite{MobbsI_2015} provides a discursive synthesis of these, culminating in the taxonomy summarised in \pxref{ex:mobbscompopt} and adopted within this thesis.
+
+\begin{example}\label{ex:mobbscompopt}
+    \textbf{A Minimalist framework for computational optimality} \parencite{MobbsI_2015}
+    \begin{itemize}
+        \item \textit{Maximise Throughput (MaxTP)}
+        \begin{itemize}
+            \item \textit{Minimise Time Complexity (MinTC)}
+            \begin{itemize}
+                \item \textit{Minimise Redundant Operations (MinRO)}
+                \begin{itemize}
+                    \item \textit{Minimise Vacuous Operations (MinVO)}
+                    \item \textit{No Tampering Condition (NTC)}
+                    \item \textit{Minimise Search (MinSearch)}
+                \end{itemize}
+                \item \textit{Minimise Reduplication (MinRedup)}
+            \end{itemize}
+            \item \textit{Minimise Space Complexity (MinSC)}
+            \begin{itemize}
+                \item \textit{Minimise Caching of Unintroduced Items (MinCUI)}
+                \item \textit{Minimise Caching of Incomplete Derivation (MinCID)}
+                \item \textit{Minimise Caching of Completed Derivation (MinCCD)}
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{example}
+
+The principle of MaxTP, coupled with the computational orientation of the theory, enables the use of ideas from computational complexity theory. The most relevant of these from the perspective of linguistic theory are effectively distilled in \pxref{ex:mobbscompopt}. Notably, NTC and MinSearch will receive particular attention and more precise definitions, especially within the formal section of the thesis, \autoref{sec:400}.
+
+As discussed by \textcite{MobbsI_2015}, alongside computational optimality there is a notion of \textit{substantive} optimality, which ``can be thought of as the number of different types of symbol and computational operation (CO) the FL employs'' \parencite[f.n.~57]{MobbsI_2015}. In effect, substantive optimality dictates that we, as theorists, reduce the number of `tools' we introduce into our theories, especially those that cannot be justified by independent means. \textcite{MobbsI_2015} compresses the concept of substantive optimality into the principle of \textit{The Less The Better} (TLTB): ``[t]his principle merely observes that a proliferation of types of symbols, constraints on symbols, types of CO, and constraints on the output of COs (taken to be) used in the FL runs contrary to M[ethodological]M[inimalism], O[ntological]M[inimalism] as methodology, and the evo-devo hypothesis for language'' \parencite[61]{MobbsI_2015}. TLTB is thus shorthand for the three Minimalist proposals which comprise MP.
+
+One may protest that `TLTB' is a hopelessly vague principle, too general to have any beneficial effect. As demonstrated in the following discussion, however, TLTB can be invoked to efficiently justify theoretical choices, without referencing individual Minimalist proposals from \pxref{ex:minprops}. Notwithstanding this, \textcite[f.n.~99]{MobbsI_2015} notes the complications that would arise from even attempting to formulate a narrower definition of substantive optimality. The emergence of more symbols and operations conceivably entails an evolutionary burden, and there will be a cognitive cost associated with a larger computational inventory. TLTB allows ``some ``principle of structural architecture'' [to] constrain the instantiation of new computational machinery -- although we have little idea of its character, in accordance with the obscurity of neuronal implementation'' \parencite[f.n.~99]{MobbsI_2015}. As a more streamlined instantiation of Occam's Razor, TLTB serves a useful Minimalist purpose. Indeed, specific principles posed within Minimalism are reduced to TLTB, such as the \textit{Inclusiveness Condition} \pxref{def:inclusiveness} and \textit{Full Interpretation} \pxref{def:FI}.
+
+\begin{examples}
+    \item\label{def:inclusiveness}
+        \textbf{\textit{Inclusiveness Condition}}
+
+        ``[N]o new objects are added in the course of computation apart from rearrangements of lexical properties'' \parencite[228]{ChomskyN_1995}
+
+    \item\label{def:FI}
+        \textbf{\textit{Principle of Full Interpretation (FI)}}
+
+        ``Features can only appear in a derivation if they are already interpretable to the interfaces, or can be properly licensed for deletion [footnote omitted---LVS] before the interfaces.'' (\nptextcite[62]{MobbsI_2015}, cf. \nptextcite[95-101]{ChomskyN_1986} and \nptextcite[151,219-220]{ChomskyN_1995})%
+        \footnote{Interface interpretability is covered in \autoref{sec:140}.}
+\end{examples}
+\noindent
+Note that the combination of \pxref{def:inclusiveness} and \pxref{def:FI} entail that all properties within syntax are ultimately lexical. As will be discussed in \autoref{sec:140} and \autoref{sec:200}, this is a crucial result that emerges from the Minimalist architecture.
+
+In sum, answering the Galilean challenge in a principled, scientific manner, entails adopting substantive optimality in the form of TLTB, alongside the principles of computational optimality as in \pxref{ex:mobbscompopt}.
+

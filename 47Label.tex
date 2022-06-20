@@ -1,0 +1,72 @@
+\subsection[Defining \Label]{Defining $\mathbfit{\Label}$}\label{sec:470}
+
+Finally, the machinery is in place to enable us to define \Label. Conceivably, with \autoref{def:MS} in place, all that is required is to define the SD \SD\ and the ST \ST. Establishing \SD\ appears simple: it is the SO to be labelled itself. \ST\ is more tricky. As discussed in \autoref{sec:450}, feature-sharing complicates the picture.
+
+Following the discussion in \autoref{sec:320}, however, entails that we must also consider how exactly \Label\ is applied within derivations. Namely, there are two broad classes of possible labelling processes, as discussed in \autoref{sec:320}: labelling can be bottom-up, or top-down. In \autoref{sec:320}, I outline an informal definition of bottom-up Label using GP. Since labelling is usually considered top-down, and since bottom-up operation is ruled out by \textcite{KeH_2019,AdgerD.RobertsI_}, I elect to formalise only top-down \Label, \LabelTD, in this section. In \autoref{sec:472}, I note how one could go about formalising bottom-up \Label, \LabelBU.
+
+The following helper function will prove useful for determining the lexical items within a set of SOs.
+
+\begin{definition}
+    For a set of SOs $\SD$, $Heads(\SD) = \{X \in \SD : X \in \LEX$ and for $X$, $\SYN \neq \emptyset\}$.
+\end{definition}
+
+The condition that a head must have syntactic features excludes L-roots from providing labels, and generally participating in syntactic relations. Ideally, this would be derived from more fundamental principles; this is reserved for future work.
+
+\subsubsection{Top-down labelling}\label{sec:471}
+
+\begin{definition}\label{def:TD:ST}
+    For set of SOs \SD,
+    \begin{enumerate}[(i)]
+
+        \item\label{def:TD:ST:i}
+            if $\SD = \emptyset$, then $\ST_{TD}(\SD) = \emptyset$,
+
+        \item\label{def:TD:ST:ii}
+            else if $Heads(\SD) = \{X\}$, for $X$ an SO, then $\ST_{TD}(\SD) = \{X\}$,
+
+        \item\label{def:TD:ST:iii}
+            else if for any set of LIs $S = \{X,Y\} \in [Heads(\SD)]^2$ such that $\MatchLI(S) \neq \emptyset$, $\ST_{TD}(\SD) = \MatchLI(S)$,
+
+        \item\label{def:TD:ST:iv}
+            else $\ST_{TD}(\SD) = \emptyset$.
+
+    \end{enumerate}
+\end{definition}
+
+Condition \ref{def:TD:ST:ii} is the simple case where, at a particular tier, if there is only one head, this is chosen as the label. Condition \ref{def:TD:ST:iii} enables feature-sharing where there are multiple heads that match features. Note that if there are multiple heads but they do not match features, the function will return $\emptyset$. Hence, encoded in this definition is the proposal, implicit in \textcite{ChomskyN_2013}, that the feature pair in a feature-sharing arrangement is a valued-unvalued combination.
+
+Recursive MS can thus be defined simply.
+
+\begin{definition}\label{def:TD:label}
+    For an SO $X$, $\LabelTD(X) = \MS(X, \ST_{TD})$.
+\end{definition}
+
+Top-down labelling requires a complex \ST\ in order to account for feature sharing. Interestingly, it does not impose any restraint on its operation: since \ST\ searches only for heads, it is not dependent on any previous computation. It can thus apply totally freely, at the expense of greater time complexity, since search needs to find the head on every occasion, even when this might be deep within a nested symmetric structure.
+
+Despite this general appeal, my formalisation of top-down labelling has the same fatal flaw as is implicit in \citeposs{KeH_2019} formalisation: it fails in $\{XP, YP\}$ structures where the heads of each phrase are differentially nested. For instance, if $X$ is less deeply embedded than $Y$, $X$ will be selected as the head. Since \textcite{NakashimaT_2021} claims that this differential level of embedding does actually play such a role in labelling (in the form of his `Symmetry Condition on Labelling'), I leave the option of this formalisation open. However, I believe that bottom-up labelling is actually more in line with what is generally assumed in the Minimalist literature, and I proceed to formalise this option in the next subsection, replacing \autoref{def:TD:ST} and \autoref{def:TD:label}.
+
+Note also that it is possible to derive a crucial conclusion of \textcite{ChomskyN_2015} as a theorem, namely the fact that L-roots never provide labels.
+
+\begin{theorem}\label{thm:rootinvis}
+    For the SO $\alpha = \{X, R\}$, for any SO $X$ and an L-root $R$, $\Label(\alpha)=\Label(X)$.
+\end{theorem}
+\noindent
+Another important case can be derived.
+
+\begin{theorem}\label{thm:standardcase}
+    For the SO $\alpha = \{X, YP\}$, for any $X \in \LEX$ such that $X$ is not an L-root, $\Label(\alpha)=\Label(X)$.
+\end{theorem}
+
+\subsubsection{Bottom-up labelling}\label{sec:472}
+
+Bottom-up labelling behaves quite differently. In order to accommodate the fact that accessibility as defined in \autoref{def:access:3} is sensitive to higher structure, bottom-up labelling needs to retain two kinds of memories. One, as discussed in \autoref{sec:320}, is the `goldfish' memory of the labels assigned at the previous level. The other is a set of variables that are incrementally assigned as the labelling algorithm traverses up the structure, encountering symmetric $\{XP, YP\}$ structures that cannot be labelled by feature sharing. These must be assigned an indeterminate label $\alpha$, which can be resolved upon movement, since at this point the lower occurrence is no longer accessible by trace invisibility. This then perlocates through the label ledger.
+
+Labels, on this view, are not constructed on the fly. Rather, they are assembled from the ground up. Generated labels can then be placed in a ledger---similarly to transferred structures, and similarly to \Agree\ (see \autoref{sec:480}). This would require a redefinition of derivation, which I do not offer here.
+
+What this entails is that ST for \LabelBU\ will be substantively simpler, but SD will be more complex, as a result of needing access to labels applied at the previous stage of derivation. 
+
+\subsubsection{Comparison}\label{sec:473}
+
+In terms of optimality, there is a final comparison to be made between \LabelTD\ and \LabelBU.
+
+\LabelTD\ allows the label of an element to be identified at any time. If the algorithm fails, a label cannot be assigned. This presumably triggers GDA movement. \LabelBU\ operates purely cyclically but requires a memory. This memory serves to reduce the overall amount of search, since only four elements ever need to be checked, namely the two labels and two SOs of the previous tier. This violates MinCCD for the sake of MinSearch, trading time complexity for space complexity. It is less clear how GDA works with \LabelBU. Without further specifying the algorithms, a more precise comparison is not available.
